@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="number"], select, button {
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #764ba2;
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #764ba2;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a4a4a;
+            text-align: center;
+        }
+        .history {
+            margin-top: 30px;
+        }
+        .history h2 {
+            color: #4a4a4a;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        #history-list {
+            list-style-type: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #history-list li {
+            background: #f8f8f8;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        #history-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Personal Calculator</h1>
+        <form id="calculator-form">
+            <input type="number" name="num1" placeholder="Number 1" required step="any">
+            <select name="operation" required>
+                <option value="add">+</option>
+                <option value="subtract">-</option>
+                <option value="multiply">*</option>
+                <option value="divide">/</option>
+                <option value="power">^ (Power)</option>
+                <option value="sin">sin</option>
+                <option value="cos">cos</option>
+                <option value="tan">tan</option>
+                <option value="log">log</option>
+            </select>
+            <input type="number" name="num2" placeholder="Number 2" step="any">
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="result"></div>
+
+        <div class="history">
+            <h2>Calculation History</h2>
+            <ul id="history-list">
+                <!-- History items will be injected here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+    <script>
+        document.getElementById('calculator-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {data[key] = value});
+
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('result').textContent = `Result: ${result}`;
+                // Fetch and update the history
+                fetch('/history')
+                    .then(response => response.json())
+                    .then(data => {
+                        const historyList = document.getElementById('history-list');
+                        historyList.innerHTML = ''; // Clear existing history
+                        data.history.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = item;
+                            historyList.appendChild(li);
+                        });
+                    });
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Fetch the calculation history on page load
+        fetch('/history')
+            .then(response => response.json())
+            .then(data => {
+                const historyList = document.getElementById('history-list');
+                data.history.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    historyList.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>
