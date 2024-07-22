@@ -17,7 +17,6 @@ This project is an advanced calculator web application built using Node.js and E
 # Deployment instructions
 
 Log in to Azure:
-bash
 az login
 
 Create a Resource Group:
