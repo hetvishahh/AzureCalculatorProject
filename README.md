@@ -13,3 +13,33 @@ This project is an advanced calculator web application built using Node.js and E
 * Frontend: HTML, CSS, JavaScript
 * Deployment: Azure App Service
 * Version Control: Git, GitHub
+
+# Deployment instructions
+
+Log in to Azure:
+bash
+az login
+
+Create a Resource Group:
+bash
+az group create --name myResourceGroup --location eastus
+
+Create an App Service Plan:
+bash
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE
+
+Create a Web App:
+bash
+az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myUniqueAppName --runtime "NODE|14-lts"
+
+Deploy the Application from GitHub:
+bash
+az webapp deployment source config --name myUniqueAppName --resource-group myResourceGroup --repo-url <YOUR_GITHUB_REPOSITORY_URL> --branch main --manual-integration
+
+Configure Application Settings:
+bash
+az webapp config appsettings set --resource-group myResourceGroup --name myUniqueAppName --settings WEBSITES_PORT=3000
+
+Browse to Your Web App:
+bash
+az webapp browse --name myUniqueAppName --resource-group myResourceGroup
