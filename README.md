@@ -3,13 +3,13 @@ This project is an advanced calculator web application built using Node.js and E
 
 
 # Features
-**Basic Arithmetic Operations: Addition, Subtraction, Multiplication, Division.
-**Advanced Mathematical Functions: Power, Sine, Cosine, Tangent, Logarithm.
-**Calculation History: Displays the last 10 calculations performed.
-**Dynamic Result Display: Results are shown on the same page without reloading.
+** Basic Arithmetic Operations: Addition, Subtraction, Multiplication, Division.
+** Advanced Mathematical Functions: Power, Sine, Cosine, Tangent, Logarithm.
+** Calculation History: Displays the last 10 calculations performed.
+** Dynamic Result Display: Results are shown on the same page without reloading.
 
 # Technologies Used
-**Backend: Node.js, Express
-**Frontend: HTML, CSS, JavaScript
-**Deployment: Azure App Service
-**Version Control: Git, GitHub
+** Backend: Node.js, Express
+** Frontend: HTML, CSS, JavaScript
+** Deployment: Azure App Service
+** Version Control: Git, GitHub
