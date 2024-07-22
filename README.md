@@ -20,19 +20,19 @@ Log in to Azure:
 az login
 
 Create a Resource Group:
-az group create --name myResourceGroup --location eastus
+az group create --name AzureCalcGroup --location eastus
 
 Create an App Service Plan:
-az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE
+az appservice plan create --name CalcAppServicePlan --resource-group AzureCalcGroup --sku FREE
 
 Create a Web App:
-az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myUniqueAppName --runtime "NODE|14-lts"
+az webapp create --resource-group AzureCalcGroup --plan CalcAppServicePlan --name AzureCalcApp123 --runtime "node|16-lts"
 
 Deploy the Application from GitHub:
-az webapp deployment source config --name myUniqueAppName --resource-group myResourceGroup --repo-url <YOUR_GITHUB_REPOSITORY_URL> --branch main --manual-integration
+az webapp deployment source config --name AzureCalcApp123 --resource-group AzureCalcGroup --repo-url https://github.com/hetvishahh/AzureCalculatorProject --branch main --manual-integration
 
 Configure Application Settings:
-az webapp config appsettings set --resource-group myResourceGroup --name myUniqueAppName --settings WEBSITES_PORT=3000
+az webapp config appsettings set --resource-group AzureCalcGroup --name AzureCalcApp123 --settings WEBSITES_PORT=3000
 
 Browse to Your Web App:
-az webapp browse --name myUniqueAppName --resource-group myResourceGroup
+az webapp browse --name AzureCalcApp123 --resource-group AzureCalcGroup
